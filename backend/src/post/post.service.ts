@@ -18,7 +18,7 @@ class PostService {
       throw new Error("Unable to Get Post");
     }
   }
-  public async searchPost(name: any) {
+  public async searchPost(name: any , userId: string) {
     try {
       const keyword = name?{
         $or: [
@@ -26,7 +26,9 @@ class PostService {
         ]
       }:{};
 
-      const posts = await this.post.find(keyword);
+      const posts = await this.post.find(
+        { user: userId, ...keyword },
+      );
       return posts;
     } catch (error) {
       throw new Error("Unable to Get Post");

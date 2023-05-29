@@ -62,7 +62,7 @@ export default class PostController implements Controller {
     try {
       const { name } = req.query;
 
-      const posts = await this.PostService.searchPost(name);
+      const posts = await this.PostService.searchPost(name , req.user?._id);
       return res.status(201).json({
         status: "success",
         posts

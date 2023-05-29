@@ -82,7 +82,7 @@ export default function Main() {
   const postImage = async () => {
     console.log("Post Image");
     const pic = uploadImg;
-    setImageLoading(true);
+
     if (pic === undefined || pic === null) {
       //  Toast Here
       console.log("No Image Selected");
@@ -101,6 +101,7 @@ export default function Main() {
       pic.type === "image/png" ||
       pic.type === "image/jpg"
     ) {
+      setImageLoading(true);
       const data = new FormData();
       data.append("file", pic);
       data.append("upload_preset", "social-media");
@@ -125,7 +126,7 @@ export default function Main() {
               { name: uploadImgName, url: dataUrl.url.toString() },
               config
             );
-              console.log(data);
+            console.log(data);
             // setPosts(data.post);
             setUploadImg(undefined);
             setFetchAgain(!fetchAgain);
@@ -146,9 +147,7 @@ export default function Main() {
     }
   };
   useEffect(() => {
-    return () => {
-      fetchPosts();
-    };
+    fetchPosts();
   }, [fetchAgain]);
   return (
     <>
@@ -197,11 +196,7 @@ export default function Main() {
               spacing={2}
               justifyContent="center"
             >
-              <UploadModal
-                type="upload"
-                text="Upload Image"
-                action={postImage}
-              >
+              <UploadModal type="upload" text="Upload Image" action={postImage}>
                 <TextField
                   name="name"
                   required
@@ -238,6 +233,15 @@ export default function Main() {
                   onChange={(e) => setSearchImg(e.target.value)}
                 />
               </UploadModal>
+              <Button
+                variant={"outlined"}
+                onClick={() => {
+                  fetchPosts();
+                  setFetchAgain(!fetchAgain);
+                }}
+              >
+                Refresh
+              </Button>
             </Stack>
           </Container>
         </Box>
